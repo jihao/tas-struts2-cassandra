@@ -5,11 +5,25 @@
 
 <struts>
 	<constant name="struts.devMode" value="true" />
-	
+
 	<package name="basicstruts2" extends="struts-default">
 		<action name="index">
 			<result>/index.jsp</result>
 		</action>
+		<action name="register" class="com.haojii.prototype.tas.user.actions.RegisterAction" method="register">
+			<result name="success">/show_user.jsp</result>
+			<result name="input">/register.jsp</result>
+		</action>
+		<action name="registerUI" class="com.haojii.prototype.tas.user.actions.RegisterAction" method="registerUI">
+			<result name="success">/register.jsp</result>
+		</action>
+		
+		<action name="tweetUI" class="com.haojii.prototype.tas.user.actions.TweetAction" method="tweetUI">
+			<result name="success">/tweet.jsp</result>
+		</action>
+		<action name="tweet" class="com.haojii.prototype.tas.user.actions.TweetAction" method="tweet">
+			<result name="success">/list_tweet.jsp</result>
+		</action>
 	</package>
-	
+
 </struts>

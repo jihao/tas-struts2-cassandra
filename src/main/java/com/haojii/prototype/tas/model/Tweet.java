@@ -6,7 +6,7 @@ public class Tweet {
 
 	private String message;
 	private String id_key;
-	private Date created_at;
+	private Date created_at = new Date();
 	
 	//relations
 	private User user;
@@ -42,4 +42,11 @@ public class Tweet {
 	public void setCreated_at(Date created_at) {
 		this.created_at = created_at;
 	}
+
+	@Override
+	public String toString() {
+		return "Tweet [message=" + message + ", id_key=" + id_key
+				+ ", created_at=" + created_at + ", user=" + user + "]";
+	}
+
 }

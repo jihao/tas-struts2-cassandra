@@ -17,7 +17,11 @@
     <logger name="org.apache.struts2">
     	 <level value="DEBUG" />
     </logger>
-  
+    
+   <logger name="com.haojii.prototype">
+    	 <level value="DEBUG" />
+   </logger>
+   
    <!-- for all other loggers log only info and above log messages -->
      <root>
         <priority value="INFO"/> 

@@ -7,7 +7,7 @@ public class User {
 
 	private String username;
 	private String password;
-	private Date created_at;
+	private Date created_at = new Date();
 	
 	//relations
 	private List<Tweet> tweets;
@@ -20,7 +20,12 @@ public class User {
 		super();
 		this.username = username;
 		this.password = password;
-		this.created_at = new Date();
+	}
+	
+	@Override
+	public String toString() {
+		return "User [username=" + username + ", password=" + password
+				+ ", created_at=" + created_at + ", tweets=" + tweets + "]";
 	}
 	
 	public String getUsername() {
