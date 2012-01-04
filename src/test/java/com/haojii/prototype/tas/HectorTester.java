@@ -170,6 +170,10 @@ public class HectorTester {
 		//this API seems to be make a connection and get a stub object of keyspace
 		Keyspace ksp2 = HFactory.createKeyspace(TMP_KEYSPACE, cluster);
 		Assert.assertNotNull(ksp2);
+		
+		//Attention: finally I got it, HFactory.createKeyspace create a Keyspace object
+		// which is a long life component and represents the Cassandra keyspace under which we will perform operations
+		// it is more like a db connection object of traditional SQL database's jdbc
 	}
 	
 	
