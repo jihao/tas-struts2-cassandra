@@ -5,6 +5,11 @@
 <web-app>
 	<display-name>Archetype Created Web Application</display-name>
 
+	<context-param>
+		<param-name>debug</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	
 	<filter>
 		<filter-name>struts2</filter-name>
 		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
@@ -14,6 +19,5 @@
 		<filter-name>struts2</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
 
 </web-app>
