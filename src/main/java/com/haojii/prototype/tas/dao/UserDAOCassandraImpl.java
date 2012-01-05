@@ -48,7 +48,7 @@ public class UserDAOCassandraImpl implements UserDAO {
 	
 	private static final String CF_NAME = "Users";
 	private static final String KS_NAME = "tas_struts2_cassandra";
-	private static final String HOST_PORT = "localhost:9170";
+	private static final String HOST_PORT = "localhost:9160";
 	
 	private static final String CN_PASSWORD = "password";
 	private static final String CN_CREATED_AT = "created_at";

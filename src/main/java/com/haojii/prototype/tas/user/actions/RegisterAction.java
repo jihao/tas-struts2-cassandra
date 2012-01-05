@@ -11,7 +11,7 @@ import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
- * the action for user registration
+ * the action for user registrations
  * 
  * @author ehaojii
  *
@@ -20,14 +20,12 @@ public class RegisterAction extends ActionSupport implements ServletContextAware
 
 	private static final Logger logger = Logger.getLogger(RegisterAction.class);
 	
-	private UserService userService;
 	private ServletContext context;
 	
-	public RegisterAction() {
-		super();
-		logger.debug("constuctor RegisterAction, conext isNull?="+(context==null));
-		boolean debug = Boolean.parseBoolean(context.getInitParameter("debug"));
-		userService = new UserService(debug);
+	//TODO: make it a factory method
+	private UserService getUserService(ServletContext sc) {
+		boolean debug = Boolean.parseBoolean(sc.getInitParameter("debug"));
+		return new UserService(debug);
 	}
 
 	private User user;
@@ -48,7 +46,7 @@ public class RegisterAction extends ActionSupport implements ServletContextAware
 		logger.debug(user.toString());
 		
 		//save user to cassandra, simplify logic
-		userService.insertUser(user);
+		this.getUserService(context).insertUser(user);
 		
 		//if register succeed, redirect user to login page
 		return Action.SUCCESS;

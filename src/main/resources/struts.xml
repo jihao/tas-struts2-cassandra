@@ -17,6 +17,16 @@
 		<action name="registerUI" class="com.haojii.prototype.tas.user.actions.RegisterAction" method="registerUI">
 			<result name="success">/register.jsp</result>
 		</action>
+		<action name="loginUI" class="com.haojii.prototype.tas.user.actions.LoginAction" method="loginUI">
+			<result name="success">/login.jsp</result>
+		</action>
+		<action name="login" class="com.haojii.prototype.tas.user.actions.LoginAction" method="login">
+			<result name="success" type="redirectAction">tweetUI</result>
+			<result name="input">/login.jsp</result>
+		</action>
+		<action name="logout" class="com.haojii.prototype.tas.user.actions.LoginAction" method="logout">
+			<result name="success" type="redirectAction">index</result>
+		</action>
 		
 		<action name="tweetUI" class="com.haojii.prototype.tas.user.actions.TweetAction" method="tweetUI">
 			<result name="success">/tweet.jsp</result>
