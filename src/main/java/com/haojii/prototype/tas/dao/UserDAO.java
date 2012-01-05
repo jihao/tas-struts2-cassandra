@@ -14,4 +14,6 @@ public interface UserDAO {
 	public boolean updateUser(User user);
 
 	public Collection<User> listUsers();
+	
+	public int countUsers();
 }
