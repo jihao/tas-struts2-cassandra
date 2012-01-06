@@ -9,17 +9,15 @@
 </head>
 <body>
 	<h2>
-		UserInfo
+		
 	</h2>
-	<h2>
-		<s:property value="user.username" />
-	</h2>
-	<h2>
-		<s:property value="user.created_at" />
-	</h2>
-	<h2>
-		<s:property value="user.tweets.size" />
-	</h2>
+	<p>
+		 <s:property value="user.username" /> successfully registered, created at: <s:property value="user.created_at" />
+		<br/>
+		<a href='<s:url action="loginUI"/>'>Sign in</a> to tweet!
+		
+	</p>
+	
 	
 	<jsp:include page="_footer.jsp"/>
 </body>
