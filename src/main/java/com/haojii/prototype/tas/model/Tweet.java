@@ -1,12 +1,12 @@
 package com.haojii.prototype.tas.model;
 
-import java.util.Date;
 
 public class Tweet {
 
 	private String message;
+	
+	//UUID string
 	private String id_key;
-	private Date created_at = new Date();
 	
 	//relations
 	private User user;
@@ -35,18 +35,10 @@ public class Tweet {
 		this.id_key = id_key;
 	}
 
-	public Date getCreated_at() {
-		return created_at;
-	}
-
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
-	}
-
 	@Override
 	public String toString() {
 		return "Tweet [message=" + message + ", id_key=" + id_key
-				+ ", created_at=" + created_at + ", user=" + user + "]";
+				+ ", user=" + user + "]";
 	}
 
 }
