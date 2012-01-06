@@ -116,21 +116,26 @@ public class TweetDAOCassandraImpl implements TweetDAO {
 		cqlQuery.setQuery("select * from " + CF_NAME);
 		QueryResult<CqlRows<UUID,String,String>> result = cqlQuery.execute();
 		CqlRows<UUID,String,String> rows = result.get();
-		Iterator<Row<UUID, String, String>>  itr = rows.iterator();
+		
 		List<Tweet> tweetList = new ArrayList<Tweet>();
-		while(itr.hasNext()) {
-			Row<UUID, String, String> row = itr.next();
-			ColumnSlice<String, String> cs = row.getColumnSlice();
-			String username = cs.getColumnByName(CN_USERNAME).getValue();
-			User user = findUser(username);
+		if( rows!=null ) 
+		{
+			Iterator<Row<UUID, String, String>>  itr = rows.iterator();
 			
-			String message = cs.getColumnByName(CN_MESSAGE).getValue();
-			UUID key = row.getKey();
-			Tweet tweet = new Tweet();
-			tweet.setUser(user);
-			tweet.setMessage(message);
-			tweet.setId_key(key.toString());
-			tweetList.add(tweet);
+			while(itr.hasNext()) {
+				Row<UUID, String, String> row = itr.next();
+				ColumnSlice<String, String> cs = row.getColumnSlice();
+				String username = cs.getColumnByName(CN_USERNAME).getValue();
+				User user = findUser(username);
+				
+				String message = cs.getColumnByName(CN_MESSAGE).getValue();
+				UUID key = row.getKey();
+				Tweet tweet = new Tweet();
+				tweet.setUser(user);
+				tweet.setMessage(message);
+				tweet.setId_key(key.toString());
+				tweetList.add(tweet);
+			}
 		}
 		return tweetList;
 	}

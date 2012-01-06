@@ -11,11 +11,11 @@
  
     <!-- specify the logging level for loggers from other libraries -->
     <logger name="com.opensymphony">
-    	<level value="DEBUG" />
+    	<level value="INFO" />
     </logger>
 
     <logger name="org.apache.struts2">
-    	 <level value="DEBUG" />
+    	 <level value="INFO" />
     </logger>
     
    <logger name="com.haojii.prototype">

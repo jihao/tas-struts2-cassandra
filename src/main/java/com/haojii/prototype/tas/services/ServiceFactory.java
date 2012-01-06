@@ -23,5 +23,9 @@ public class ServiceFactory {
 	public UserService getUserService() {
 		return new UserService(this.debug);
 	}
+	
+	public TweetService getTweetService() {
+		return new TweetService(this.debug);
+	}
 
 }

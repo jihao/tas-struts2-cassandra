@@ -32,7 +32,8 @@
 			<result name="success">/tweet.jsp</result>
 		</action>
 		<action name="tweet" class="com.haojii.prototype.tas.user.actions.TweetAction" method="tweet">
-			<result name="success">/list_tweet.jsp</result>
+			<result name="success" type="redirectAction">tweetUI</result>
+			<result name="error">/tweet.jsp</result>
 		</action>
 	</package>
 
