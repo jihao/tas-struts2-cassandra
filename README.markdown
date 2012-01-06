@@ -20,10 +20,8 @@
 	[default@unknown] use tas_struts2_cassandra;
 	Authenticated to keyspace: tas_struts2_cassandra
 	[default@tas_struts2_cassandra] create column family Users with comparator=UTF8Type and default_validation_class=UTF8Type and key_validation_class=UTF8Type;
-	[default@tas_struts2_cassandra] create column family Tweets with comparator=UTF8Type and default_validation_class=UTF8Type and key_validation_class=DateType;
-	[default@tas_struts2_cassandra] create column family Userline with comparator=UTF8Type and default_validation_class=UTF8Type and key_validation_class=UTF8Type;
-	[default@tas_struts2_cassandra] create column family Timeline with comparator=UTF8Type and default_validation_class=UTF8Type and key_validation_class=DateType;
-
+	[default@tas_struts2_cassandra] create column family Tweets with comparator=UTF8Type and default_validation_class=UTF8Type and key_validation_class=UUIDType;
+	
 
 ## Schema ##
 ### ColumnFamily Users
