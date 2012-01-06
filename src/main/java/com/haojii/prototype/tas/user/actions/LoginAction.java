@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import org.apache.log4j.Logger;
-import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
 
