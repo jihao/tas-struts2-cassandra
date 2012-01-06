@@ -10,6 +10,7 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
 
 import com.haojii.prototype.tas.model.User;
+import com.haojii.prototype.tas.services.ServiceFactory;
 import com.haojii.prototype.tas.services.UserService;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
@@ -26,12 +27,6 @@ public class LoginAction extends ActionSupport implements ServletContextAware, S
 	
 	private ServletContext context;
 	private Map<String, Object> session;
-
-	//TODO: make it a factory method
-	private UserService getUserService(ServletContext sc) {
-		boolean debug = Boolean.parseBoolean(sc.getInitParameter("debug"));
-		return new UserService(debug);
-	}
 
 	private User user;
 	
@@ -50,7 +45,8 @@ public class LoginAction extends ActionSupport implements ServletContextAware, S
 	public String login() {
 		logger.debug(user.toString());
 		
-		boolean result = this.getUserService(context).verifyUsernamePassword(user);
+		UserService userService = ServiceFactory.getInstance(context).getUserService();
+		boolean result = userService.verifyUsernamePassword(user);
 		
 		if (result) {
 			logger.debug("SUCCESS");

@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.util.ServletContextAware;
 
 import com.haojii.prototype.tas.model.User;
+import com.haojii.prototype.tas.services.ServiceFactory;
 import com.haojii.prototype.tas.services.UserService;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
@@ -22,12 +23,6 @@ public class RegisterAction extends ActionSupport implements ServletContextAware
 	
 	private ServletContext context;
 	
-	//TODO: make it a factory method
-	private UserService getUserService(ServletContext sc) {
-		boolean debug = Boolean.parseBoolean(sc.getInitParameter("debug"));
-		return new UserService(debug);
-	}
-
 	private User user;
 	
 	public User getUser() {
@@ -46,7 +41,8 @@ public class RegisterAction extends ActionSupport implements ServletContextAware
 		logger.debug(user.toString());
 		
 		//save user to cassandra, simplify logic
-		this.getUserService(context).insertUser(user);
+		UserService userService = ServiceFactory.getInstance(context).getUserService();
+		userService.insertUser(user);
 		
 		//if register succeed, redirect user to login page
 		return Action.SUCCESS;
