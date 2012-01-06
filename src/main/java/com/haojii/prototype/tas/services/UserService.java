@@ -44,6 +44,9 @@ public class UserService {
 	
 	public boolean verifyUsernamePassword(User user) {
 		User persistUser = findUser(user.getUsername());
+		if (persistUser == null) {
+			return false;
+		}
 		String md5Password = DigestUtils.md5Hex(user.getPassword());
 		logger.debug("user input : MD5(password)=" + md5Password);
 		logger.debug("database   : MD5(password)=" + persistUser.getPassword());

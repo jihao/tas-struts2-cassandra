@@ -16,6 +16,7 @@ import me.prettyprint.cassandra.service.template.ThriftColumnFamilyTemplate;
 import me.prettyprint.hector.api.Cluster;
 import me.prettyprint.hector.api.Keyspace;
 import me.prettyprint.hector.api.beans.ColumnSlice;
+import me.prettyprint.hector.api.beans.HColumn;
 import me.prettyprint.hector.api.beans.OrderedRows;
 import me.prettyprint.hector.api.beans.Row;
 import me.prettyprint.hector.api.factory.HFactory;
@@ -98,42 +99,61 @@ public class UserDAOCassandraImpl implements UserDAO {
 
 	@Override
 	public User findUser(String username) {
-		User user = new User();
-		user.setUsername(username);
-		
-		SliceQuery<String, String, String>  sliceQuery = HFactory.createSliceQuery(keyspace, StringSerializer.get(), StringSerializer.get(), StringSerializer.get());
-		sliceQuery.setColumnFamily(CF_NAME);
-		sliceQuery.setRange(null, null, false, 100);
-		sliceQuery.setKey(username);
-		sliceQuery.setColumnNames(CN_PASSWORD,CN_CREATED_AT);
-		
-		QueryResult<ColumnSlice<String, String>> result = sliceQuery.execute();
-		ColumnSlice<String, String> columnSlice= result.get();
-		
-		String md5Password = columnSlice.getColumnByName(CN_PASSWORD).getValue();
-		String dateStr = columnSlice.getColumnByName(CN_CREATED_AT).getValue();
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		try {
-			Date date = formatter.parse(dateStr);
-			user.setCreated_at(date);
-		} catch (ParseException e) {
-			logger.debug(e.getMessage());
+		//check if row key exist, then query
+		CountQuery<String, String> countQuery = HFactory.createCountQuery(keyspace, StringSerializer.get(), StringSerializer.get());
+		countQuery.setColumnFamily(CF_NAME);
+		countQuery.setKey(username);
+		countQuery.setRange(null, null, 100);
+		QueryResult<Integer> countResult = countQuery.execute();
+		int count = countResult.get();
+		if(count==0) 
+		{
+			return null;
+		} 
+		else
+		{
+			User user = new User();
+			user.setUsername(username);
+			
+			SliceQuery<String, String, String>  sliceQuery = HFactory.createSliceQuery(keyspace, StringSerializer.get(), StringSerializer.get(), StringSerializer.get());
+			sliceQuery.setColumnFamily(CF_NAME);
+			sliceQuery.setRange(null, null, false, 1000);
+			sliceQuery.setKey(username);
+			sliceQuery.setColumnNames(CN_PASSWORD,CN_CREATED_AT);
+			
+			QueryResult<ColumnSlice<String, String>> result = sliceQuery.execute();
+			ColumnSlice<String, String> columnSlice= result.get();
+			
+			logger.debug("columnSlice isNull?="+(columnSlice==null));
+			logger.debug("columnSlice.getColumnByName(CN_PASSWORD) isNull?="+(columnSlice.getColumnByName(CN_PASSWORD)==null)); 
+			HColumn<String, String> columnPassword = columnSlice.getColumnByName(CN_PASSWORD);
+			String md5Password = (columnPassword != null ? columnPassword.getValue() : null);
+			
+			HColumn<String, String> columnDate = columnSlice.getColumnByName(CN_CREATED_AT);
+			String dateStr = (columnDate != null ? columnDate.getValue() : null);
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			try {
+				Date date = formatter.parse(dateStr);
+				user.setCreated_at(date);
+			} catch (ParseException e) {
+				logger.debug(e.getMessage());
+			}
+			user.setPassword(md5Password);
+			
+			/*String md5password = cassandraDao.get(username, CN_PASSWORD);
+			user.setPassword(md5password);
+			
+			String dateStr = cassandraDao.get(username, CN_CREATED_AT);
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			try {
+				Date date = formatter.parse(dateStr);
+				user.setCreated_at(date);
+			} catch (ParseException e) {
+				logger.debug(e.getMessage());
+			}*/
+			
+			return user;
 		}
-		user.setPassword(md5Password);
-		
-		/*String md5password = cassandraDao.get(username, CN_PASSWORD);
-		user.setPassword(md5password);
-		
-		String dateStr = cassandraDao.get(username, CN_CREATED_AT);
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		try {
-			Date date = formatter.parse(dateStr);
-			user.setCreated_at(date);
-		} catch (ParseException e) {
-			logger.debug(e.getMessage());
-		}*/
-		
-		return user;
 	}
 
 	@Override
@@ -161,6 +181,7 @@ public class UserDAOCassandraImpl implements UserDAO {
 		RangeSlicesQuery<String, String, String> rangeSlicesQuery = HFactory.createRangeSlicesQuery(keyspace, StringSerializer.get(), StringSerializer.get(), StringSerializer.get());
 		rangeSlicesQuery.setColumnFamily(CF_NAME);
 		rangeSlicesQuery.setColumnNames(CN_PASSWORD,CN_CREATED_AT);
+		rangeSlicesQuery.setRowCount(1000);
 		//rangeSlicesQuery.setRange(start, finish, reversed, count)
 		QueryResult<OrderedRows<String, String, String>> result = rangeSlicesQuery.execute();
 		OrderedRows<String, String, String> rows = result.get();
@@ -195,6 +216,7 @@ public class UserDAOCassandraImpl implements UserDAO {
 	@Override
 	public int countUsers() {
 		CountQuery<String, String> countQuery = HFactory.createCountQuery(keyspace, StringSerializer.get(), StringSerializer.get());
+		countQuery.setColumnFamily(CF_NAME);
 		QueryResult<Integer> result = countQuery.execute();
 		return result.get();
 	}
