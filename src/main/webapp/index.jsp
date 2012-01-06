@@ -12,5 +12,7 @@
 <a href="<s:url action="registerUI"/>">Register</a> | <a href="<s:url action="loginUI"/>">Sign in</a>
 </s:else>
 <p><a href="<s:url action='tweetUI'/>">Tweet</a></p>
+
+<jsp:include page="_footer.jsp"/>
 </body>
 </html>

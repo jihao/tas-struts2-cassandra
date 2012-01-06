@@ -21,6 +21,6 @@
 		<s:property value="user.tweets.size" />
 	</h2>
 	
-	
+	<jsp:include page="_footer.jsp"/>
 </body>
 </html>

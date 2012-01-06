@@ -20,7 +20,6 @@
 
 	</s:form>
 	
-<a href="<s:url action="index" namespace="config-browser" />">Launch the configuration browser</a>
 <jsp:include page="_footer.jsp"/>
 </body>
 </html>

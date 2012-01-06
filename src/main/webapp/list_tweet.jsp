@@ -12,5 +12,6 @@
 		<s:property value="tweet.created_at" />
 	</p>
 	
+	<jsp:include page="_footer.jsp"/>
 </body>
 </html>
